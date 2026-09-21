@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f4ef" />
+  <title>Sakura Talk — Japanese Roleplay</title>
+  <meta name="description" content="Natural realtime Japanese role-play with Sakura, your invisible AI coach." />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand ghost-btn" data-go="home" aria-label="Home">
+        <span class="brand-mark">桜</span>
+        <span class="brand-copy"><strong>Sakura Talk</strong><small>自然な日本語会話</small></span>
+      </button>
+      <div class="status-pill"><span class="status-dot"></span><span id="apiStatusText">Ready</span></div>
+    </header>
+
+    <main>
+      <section class="screen active" id="screen-home">
+        <div class="hero">
+          <div class="eyebrow">REALTIME JAPANESE ROLEPLAY</div>
+          <div class="sakura-portrait large" aria-hidden="true">
+            <div class="portrait-ring"></div><div class="portrait-face">さ</div><span class="presence-dot"></span>
+          </div>
+          <h1>Speak Japanese.<br><span>Forget you’re practicing.</span></h1>
+          <p class="lead">Sakura listens, reacts, remembers context, and corrects your Japanese without turning the conversation into a lesson.</p>
+          <div class="feature-row">
+            <span>🎙 Realtime voice</span><span>🌸 Natural correction</span><span>🧠 Session memory</span>
+          </div>
+          <button class="primary-btn wide" id="startSetupBtn">Start a conversation <span>→</span></button>
+          <p class="tiny">Voice mode needs an OpenAI API key configured on the server. A built-in demo flow is available without a key.</p>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-setup">
+        <div class="section-wrap">
+          <button class="back-btn" data-go="home">← Back</button>
+          <div class="section-title"><span class="eyebrow">YOUR SESSION</span><h2>Set the scene</h2><p>Keep it simple. Sakura adapts while you talk.</p></div>
+
+          <div class="field-card">
+            <label for="displayName">Your name</label>
+            <input id="displayName" maxlength="24" placeholder="Shohag" autocomplete="name" />
+          </div>
+
+          <div class="field-card">
+            <label>Japanese level</label>
+            <div class="segmented" id="levelOptions">
+              <button data-value="N5">N5</button><button data-value="N4">N4</button><button class="selected" data-value="N3">N3</button><button data-value="N2">N2</button><button data-value="N1">N1</button><button data-value="Native">Native</button>
+            </div>
+          </div>
+
+          <div class="field-card">
+            <label>Scenario</label>
+            <div class="scenario-grid" id="scenarioGrid">
+              <button class="scenario selected" data-scenario="Free Talk" data-ja="フリートーク"><span>☕</span><strong>Free Talk</strong><small>フリートーク</small></button>
+              <button class="scenario" data-scenario="Japanese Friend" data-ja="友だち"><span>🌸</span><strong>Japanese Friend</strong><small>友だち</small></button>
+              <button class="scenario" data-scenario="Part-time Job Manager" data-ja="店長との会話"><span>🍜</span><strong>Part-time Job</strong><small>店長との会話</small></button>
+              <button class="scenario" data-scenario="Job Interview" data-ja="面接"><span>💼</span><strong>Interview</strong><small>面接</small></button>
+              <button class="scenario" data-scenario="Restaurant" data-ja="レストラン"><span>🍣</span><strong>Restaurant</strong><small>レストラン</small></button>
+              <button class="scenario" data-scenario="Convenience Store" data-ja="コンビニ"><span>🏪</span><strong>Convenience Store</strong><small>コンビニ</small></button>
+              <button class="scenario" data-scenario="School Interview" data-ja="学校面接"><span>🎓</span><strong>School Interview</strong><small>学校面接</small></button>
+              <button class="scenario" data-scenario="Keigo Practice" data-ja="敬語"><span>🪭</span><strong>Keigo</strong><small>敬語</small></button>
+            </div>
+          </div>
+
+          <button class="primary-btn wide" id="enterCallBtn">Meet Sakura <span>→</span></button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-call">
+        <div class="call-page">
+          <div class="call-head">
+            <button class="round-icon" id="leaveCallBtn" aria-label="Leave call">×</button>
+            <div><strong id="callScenarioTitle">Free Talk</strong><small id="callLevelText">N3 · Tokyo Japanese</small></div>
+            <div class="timer" id="timerText">00:00</div>
+          </div>
+
+          <div class="call-stage">
+            <div class="sakura-portrait" id="avatarState">
+              <div class="portrait-ring"></div><div class="portrait-face">さ</div><span class="presence-dot"></span>
+            </div>
+            <h2>Sakura <span>AI</span></h2>
+            <p id="callStateText">Tap “Start voice” when you’re ready.</p>
+            <div class="wave" id="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+
+          <div class="live-card">
+            <div class="live-card-head"><span>LIVE TRANSCRIPT</span><button id="toggleTranscriptBtn">Hide</button></div>
+            <div id="transcriptList" class="transcript-list">
+              <div class="empty-transcript">Your conversation will appear here.</div>
+            </div>
+          </div>
+
+          <div class="call-controls">
+            <button class="secondary-btn" id="helpBtn">?</button>
+            <button class="mic-btn" id="voiceBtn"><span class="mic-icon">🎙</span><strong>Start voice</strong></button>
+            <button class="secondary-btn" id="muteBtn">🔇</button>
+          </div>
+          <button class="text-link" id="demoLineBtn">No API key? Run a 20-second demo →</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-report">
+        <div class="section-wrap report-wrap">
+          <div class="report-hero">
+            <div class="mini-sakura">桜</div><span class="eyebrow">SESSION COMPLETE</span><h2>今日もよく話せたね。</h2><p id="reportSubtitle">Here’s what stood out in your Japanese.</p>
+          </div>
+          <div class="score-grid" id="scoreGrid"></div>
+          <div class="report-card"><h3>Important corrections</h3><div id="correctionsList"></div></div>
+          <div class="report-card"><h3>Strong points</h3><div id="strengthsList" class="chips"></div></div>
+          <div class="report-card"><h3>Focus next time</h3><div id="focusList" class="chips"></div></div>
+          <button class="primary-btn wide" id="newSessionBtn">Start another session</button>
+        </div>
+      </section>
+    </main>
+
+    <div class="sheet-backdrop" id="sheetBackdrop"></div>
+    <aside class="bottom-sheet" id="helpSheet" aria-hidden="true">
+      <div class="sheet-handle"></div><h3>Need a little help?</h3><p>Sakura will keep the role-play moving.</p>
+      <button data-help="hint">💡 What should I say?</button>
+      <button data-help="simple">🫧 Say it more simply</button>
+      <button data-help="repeat">🐢 Repeat slowly</button>
+      <button data-help="translate">বাংলা Translate what she said</button>
+    </aside>
+
+    <div class="toast" id="toast"></div>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
